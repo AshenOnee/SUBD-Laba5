@@ -34,16 +34,17 @@ import java.awt.event.ItemEvent;
 
 @SuppressWarnings("serial")
 public class FEdit extends JFrame {
+	private DBcontroller dbController;
 
 	private JPanel contentPane;
 	private JPanel pMain= new JPanel();
 	private JPanel pSelectTable = new JPanel();
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private JComboBox comboBox = new JComboBox(new DefaultComboBoxModel(new String[] {"journal", "pupil", "teacher", "subject", "class"}));
-	private String currentTable = new String();
+	
 	private int id = 0;
-	private DBcontroller dbController;
-	private String mode = new String();
+	private String currentTable;
+	private String mode;
 	
 	private ArrayList<DialogListener> listeners = new ArrayList<>();
 
@@ -354,6 +355,104 @@ public class FEdit extends JFrame {
 	}
 
 	@SuppressWarnings("unchecked")
+	private void fillFieldsJournal(ResultSet rs)
+	{
+		try
+		{
+			dbController.updateTables();
+			
+			cbPupil.setModel(new DefaultComboBoxModel<>(dbController.getPupilTable().getTablePupil().toArray()));
+			
+			cbSubject.setModel(new DefaultComboBoxModel<>(dbController.getSubjectTable().getTableSubject().toArray()));
+			
+			cbTeacher.setModel(new DefaultComboBoxModel<>(dbController.getTeacherTable().getTableTeacher().toArray()));
+			
+			for(PupilRow row:dbController.getPupilTable().getTablePupil())
+				if(row.getId().equals(rs.getObject(1).toString()))
+					cbPupil.setSelectedItem(row);
+			
+			for(TeacherRow row:dbController.getTeacherTable().getTableTeacher())
+				if(row.getId().equals(rs.getObject(2).toString()))
+					cbTeacher.setSelectedItem(row);
+			
+			for(SubjectRow row:dbController.getSubjectTable().getTableSubject())
+				if(row.getId().equals(rs.getObject(3).toString()))
+					cbSubject.setSelectedItem(row);
+			
+			tfDate.setText(rs.getObject(4).toString());
+			tfMark.setText(rs.getObject(5).toString());
+		}
+		catch(Exception e)
+		{
+			JOptionPane.showMessageDialog(null, e.getMessage());
+		}
+	}
+	
+	@SuppressWarnings("unchecked")
+	private void fillFieldsPupil(ResultSet rs)
+	{
+		try
+		{
+			dbController.updateTables();
+
+			cbClass.setModel(new DefaultComboBoxModel<>(dbController.getClassTable().getTableClass().toArray()));
+			
+			for(ClassRow row:dbController.getClassTable().getTableClass())
+				if(row.getId().equals(rs.getObject(1).toString()))
+					cbClass.setSelectedItem(row);
+
+			tfSurnamePupil.setText(rs.getObject(2).toString());
+			tfNamePupil.setText(rs.getObject(3).toString());
+			tfPatronymic.setText(rs.getObject(4).toString());
+			tfDateOfBirth.setText(rs.getObject(5).toString());
+			tfPlaceOfResidence.setText(rs.getObject(6).toString());
+			tfPhone.setText(rs.getObject(7).toString());
+			tfBloodType.setText(rs.getObject(8).toString());
+		}
+		catch(Exception e)
+		{
+			JOptionPane.showMessageDialog(null, e.getMessage());
+		}
+	}
+	
+	private void fillFieldsTeacher(ResultSet rs)
+	{
+		try
+		{
+			tfSurnameTeacher.setText(rs.getObject(1).toString());
+			tfNameTeacher.setText(rs.getObject(2).toString());
+			tfPatronymicTeacher.setText(rs.getObject(3).toString());
+		}
+		catch(Exception e)
+		{
+			JOptionPane.showMessageDialog(null, e.getMessage());
+		}
+	}
+	
+	private void fillFieldsClass(ResultSet rs)
+	{
+		try
+		{
+			tfNameClass.setText(rs.getObject(1).toString());
+		}
+		catch(Exception e)
+		{
+			JOptionPane.showMessageDialog(null, e.getMessage());
+		}
+	}
+	
+	private void fillFieldsSubject(ResultSet rs)
+	{
+		try
+		{
+			tfNameSubject.setText(rs.getObject(1).toString());
+		}
+		catch(Exception e)
+		{
+			JOptionPane.showMessageDialog(null, e.getMessage());
+		}
+	}
+	
 	private void fillFields()
 	{
 		try 
@@ -363,61 +462,23 @@ public class FEdit extends JFrame {
 			switch(currentTable)
 			{
 				case "journal":
-					
-					dbController.updateTables();
-					
-					cbPupil.setModel(new DefaultComboBoxModel<>(dbController.getPupilTable().getTablePupil().toArray()));
-					
-					cbSubject.setModel(new DefaultComboBoxModel<>(dbController.getSubjectTable().getTableSubject().toArray()));
-					
-					cbTeacher.setModel(new DefaultComboBoxModel<>(dbController.getTeacherTable().getTableTeacher().toArray()));
-					
-					for(int i = 0; i < cbPupil.getItemCount(); i++)
-						if(((PupilRow)cbPupil.getItemAt(i)).getId().equals(rs.getObject(2).toString()))
-							cbPupil.setSelectedIndex(i);
-					
-					for(int i = 0; i < cbTeacher.getItemCount(); i++)
-						if(((TeacherRow)cbTeacher.getItemAt(i)).getId().equals(rs.getObject(3).toString()))
-							cbTeacher.setSelectedIndex(i);
-					
-					for(int i = 0; i < cbSubject.getItemCount(); i++)
-						if(((SubjectRow)cbSubject.getItemAt(i)).getId().equals(rs.getObject(4).toString()))
-							cbSubject.setSelectedIndex(i);
-					
-					tfDate.setText(rs.getObject(5).toString());
-					tfMark.setText(rs.getObject(6).toString());
+					fillFieldsJournal(rs);
 					break;
 					
 				case "pupil":
-					dbController.updateTables();
-
-					cbClass.setModel(new DefaultComboBoxModel<>(dbController.getClassTable().getTableClass().toArray()));
-					
-					for(int i = 0; i < cbClass.getItemCount(); i++)
-						if(((ClassRow)cbClass.getItemAt(i)).getId().equals(rs.getObject(2).toString()))
-							cbClass.setSelectedIndex(i);				
-					
-					tfSurnamePupil.setText(rs.getObject(3).toString());
-					tfNamePupil.setText(rs.getObject(4).toString());
-					tfPatronymic.setText(rs.getObject(5).toString());
-					tfDateOfBirth.setText(rs.getObject(6).toString());
-					tfPlaceOfResidence.setText(rs.getObject(7).toString());
-					tfPhone.setText(rs.getObject(8).toString());
-					tfBloodType.setText(rs.getObject(9).toString());
+					fillFieldsPupil(rs);
 					break;
 					
 				case "class":
-					tfNameClass.setText(rs.getObject(2).toString());
+					fillFieldsClass(rs);
 					break;
 					
 				case "subject":
-					tfNameSubject.setText(rs.getObject(2).toString());
+					fillFieldsSubject(rs);
 					break;
 					
 				case "teacher":
-					tfSurnameTeacher.setText(rs.getObject(2).toString());
-					tfNameTeacher.setText(rs.getObject(3).toString());
-					tfPatronymicTeacher.setText(rs.getObject(4).toString());
+					fillFieldsTeacher(rs);
 					break;
 			}
 		} 
@@ -428,41 +489,67 @@ public class FEdit extends JFrame {
 	}
 	
 	@SuppressWarnings("unchecked")
+	private void changePanelToJournal()
+	{
+		dbController.updateTables();
+
+		cbPupil.setModel(new DefaultComboBoxModel<>(dbController.getPupilTable().getTablePupil().toArray()));
+
+		cbSubject.setModel(new DefaultComboBoxModel<>(dbController.getSubjectTable().getTableSubject().toArray()));
+		
+		cbTeacher.setModel(new DefaultComboBoxModel<>(dbController.getTeacherTable().getTableTeacher().toArray()));
+		
+		pMain.removeAll();
+		pMain.add(pJournal, BorderLayout.CENTER);
+	}
+	
+	@SuppressWarnings("unchecked")
+	private void changePanelToPupil()
+	{
+		dbController.updateTables();
+		
+		cbClass.setModel(new DefaultComboBoxModel<>(dbController.getClassTable().getTableClass().toArray()));
+		
+		pMain.removeAll();
+		pMain.add(pPupil, BorderLayout.CENTER);
+	}
+	
+	private void changePanelToTeacher()
+	{
+		pMain.removeAll();
+		pMain.add(pTeacher, BorderLayout.CENTER);
+	}
+	
+	private void changePanelToSubject()
+	{
+		pMain.removeAll();
+		pMain.add(pSubject, BorderLayout.CENTER);
+	}
+	
+	private void changePanelToClass()
+	{
+		pMain.removeAll();
+		pMain.add(pClass, BorderLayout.CENTER);
+	}
+	
 	private void changePanel()
 	{		
 		switch(currentTable)
 		{
 			case "journal":
-				dbController.updateTables();
-
-				cbPupil.setModel(new DefaultComboBoxModel<>(dbController.getPupilTable().getTablePupil().toArray()));
-
-				cbSubject.setModel(new DefaultComboBoxModel<>(dbController.getSubjectTable().getTableSubject().toArray()));
-				
-				cbTeacher.setModel(new DefaultComboBoxModel<>(dbController.getTeacherTable().getTableTeacher().toArray()));
-				
-				pMain.removeAll();
-				pMain.add(pJournal, BorderLayout.CENTER);
+				changePanelToJournal();
 				break;
 			case "pupil":
-				dbController.updateTables();
-				
-				cbClass.setModel(new DefaultComboBoxModel<>(dbController.getClassTable().getTableClass().toArray()));
-				
-				pMain.removeAll();
-				pMain.add(pPupil, BorderLayout.CENTER);
+				changePanelToPupil();
 				break;
 			case "class":
-				pMain.removeAll();
-				pMain.add(pClass, BorderLayout.CENTER);
+				changePanelToClass();
 				break;
 			case "subject":
-				pMain.removeAll();
-				pMain.add(pSubject, BorderLayout.CENTER);
+				changePanelToSubject();
 				break;
 			case "teacher":
-				pMain.removeAll();
-				pMain.add(pTeacher, BorderLayout.CENTER);
+				changePanelToTeacher();
 				break;
 		}
 		pMain.updateUI();
@@ -487,80 +574,78 @@ public class FEdit extends JFrame {
     
     private void addOrUpdate()
     {
-    	if(mode == "add")
-    	{
-	    	int id = 0;
-	    	switch(currentTable)
-			{
-				case "journal":
-					id = dbController.maxIdTable("journal") + 1;
-					dbController.edit("insert into journal "
-							+ "values(" + id + ", " + ((PupilRow)cbPupil.getSelectedItem()).getId() + ", " + 
-							((TeacherRow)cbTeacher.getSelectedItem()).getId() + ", " + ((SubjectRow)cbSubject.getSelectedItem()).getId() + ", "
-									+ "'" + tfDate.getText() + "', " + tfMark.getText() + ");");
-					break;
-				case "pupil":
-					id = dbController.maxIdTable("pupil") + 1;
-					dbController.edit("insert into pupil "
-							+ "values(" + id + ", " + ((ClassRow)cbClass.getSelectedItem()).getId() + ", '" + tfSurnamePupil.getText() + "', '" + tfNamePupil.getText() + "', "
-									+ "'" + tfPatronymic.getText() + "', '" + tfDateOfBirth.getText() + "', '" + tfPlaceOfResidence.getText() 
-									+ "', " + tfPhone.getText() + ", '" + tfBloodType.getText() + "');");
-					break;
-				case "class":
-					id = dbController.maxIdTable("class") + 1;
-					dbController.edit("insert into class "
-							+ "values(" + id + ", '" + tfNameClass.getText() + "');");
-					break;
-				case "subject":
-					id = dbController.maxIdTable("subject") + 1;
-					dbController.edit("insert into subject "
-							+ "values(" + id + ", '" + tfNameSubject.getText() + "');");
-					break;
-				case "teacher":
-					id = dbController.maxIdTable("teacher") + 1;
-					dbController.edit("insert into teacher "
-							+ "values(" + id + ", '" + tfSurnameTeacher.getText() + "', '" + tfNameTeacher.getText() + "', '" + tfPatronymicTeacher.getText() + "');");
-					break;
-			}
-    	}
-    	else
-    	{
-    		switch(currentTable)
-			{
-				case "journal":
-					dbController.edit("update journal set "
-							+ "id_pupil = " + ((PupilRow)cbPupil.getSelectedItem()).getId() + ", id_teacher =" 
-							+ ((TeacherRow)cbTeacher.getSelectedItem()).getId() + ", id_subject =" 
-							+ ((SubjectRow)cbSubject.getSelectedItem()).getId() + ", date = '" 
-							+ tfDate.getText() + "', mark = " + tfMark.getText() + " where id = " + id + ";");
-					break;
-					
-				case "pupil":
-					dbController.edit("update pupil set "
-							+ "id_class = " + ((ClassRow)cbClass.getSelectedItem()).getId() + ", surname = '" 
-							+ tfSurnamePupil.getText() + "', name = '" + tfNamePupil.getText() + "', "
-							+ "patronymic = '" + tfPatronymic.getText() + "', date_of_birth = '" + tfDateOfBirth.getText() 
-							+ "', place_of_residence = '" + tfPlaceOfResidence.getText() + "', phone = " 
-							+ tfPhone.getText() + ", bloodtype = '" + tfBloodType.getText() + "' where id = " + id + ";");
-					break;
-					
-				case "class":
-					dbController.edit("update class set "
-							+ "name = '" + tfNameClass.getText() + "' where id = " + id + ";");
-					break;
-					
-				case "subject":
-					dbController.edit("update subject set "
-							+ "name = '" + tfNameSubject.getText() + "' where id = " + id + ";");
-					break;
-					
-				case "teacher":
-					dbController.edit("update teacher set "
-							+ "surname = '" + tfSurnameTeacher.getText() + "', name = '" + tfNameTeacher.getText() + "', patronymic = '" 
-							+ tfPatronymicTeacher.getText() + "' where id = " + id + ";");
-					break;
-			}
-    	}
+    	if(mode == "add") add();
+    	else update();
+    }
+    
+    private void add()
+    {
+    	switch(currentTable)
+		{
+			case "journal":
+				dbController.edit("insert into journal (id_pupil, id_teacher, id_subject, date, mark) "
+						+ "values(" + ((PupilRow)cbPupil.getSelectedItem()).getId() + ", " + 
+						((TeacherRow)cbTeacher.getSelectedItem()).getId() + ", " + ((SubjectRow)cbSubject.getSelectedItem()).getId() + ", "
+								+ "'" + tfDate.getText() + "', " + tfMark.getText() + ");");
+				break;
+			case "pupil":
+				dbController.edit("insert into pupil (id_class, surname, name, patronymic, date_of_birth, place_of_residence, phone, bloodtype) "
+						+ "values("+ ((ClassRow)cbClass.getSelectedItem()).getId() + ", '" + tfSurnamePupil.getText() + "', '" + tfNamePupil.getText() + "', "
+								+ "'" + tfPatronymic.getText() + "', '" + tfDateOfBirth.getText() + "', '" + tfPlaceOfResidence.getText() 
+								+ "', " + tfPhone.getText() + ", '" + tfBloodType.getText() + "');");
+				break;
+			case "class":
+				dbController.edit("insert into class (name) "
+						+ "values('" + tfNameClass.getText() + "');");
+				break;
+			case "subject":
+				dbController.edit("insert into subject (name) "
+						+ "values('" + tfNameSubject.getText() + "');");
+				break;
+			case "teacher":
+				dbController.edit("insert into teacher (surname, name, patronymic)  "
+						+ "values('" + tfSurnameTeacher.getText() + "', '" + tfNameTeacher.getText() + "', '" + tfPatronymicTeacher.getText() + "');");
+				break;
+		}
+    }
+    
+    private void update()
+    {
+    	switch(currentTable)
+		{
+			case "journal":
+				dbController.edit("update journal set "
+						+ "id_pupil = " + ((PupilRow)cbPupil.getSelectedItem()).getId() + ", id_teacher =" 
+						+ ((TeacherRow)cbTeacher.getSelectedItem()).getId() + ", id_subject =" 
+						+ ((SubjectRow)cbSubject.getSelectedItem()).getId() + ", date = '" 
+						+ tfDate.getText() + "', mark = " + tfMark.getText() + " where id = " + id + ";");
+				break;
+				
+			case "pupil":
+				dbController.edit("update pupil set "
+						+ "id_class = " + ((ClassRow)cbClass.getSelectedItem()).getId() + ", surname = '" 
+						+ tfSurnamePupil.getText() + "', name = '" + tfNamePupil.getText() + "', "
+						+ "patronymic = '" + tfPatronymic.getText() + "', date_of_birth = '" + tfDateOfBirth.getText() 
+						+ "', place_of_residence = '" + tfPlaceOfResidence.getText() + "', phone = " 
+						+ tfPhone.getText() + ", bloodtype = '" + tfBloodType.getText() + "' where id = " + id + ";");
+				break;
+				
+			case "class":
+				dbController.edit("update class set "
+						+ "name = '" + tfNameClass.getText() + "' where id = " + id + ";");
+				break;
+				
+			case "subject":
+				dbController.edit("update subject set "
+						+ "name = '" + tfNameSubject.getText() + "' where id = " + id + ";");
+				break;
+				
+			case "teacher":
+				dbController.edit("update teacher set "
+						+ "surname = '" + tfSurnameTeacher.getText() + "', name = '" + tfNameTeacher.getText() + "', patronymic = '" 
+						+ tfPatronymicTeacher.getText() + "' where id = " + id + ";");
+				break;
+		}
     }
     
     @Override

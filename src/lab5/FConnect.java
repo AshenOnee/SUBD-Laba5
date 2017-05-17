@@ -139,7 +139,6 @@ public class FConnect extends JFrame
 		try 
 		{
 			dbController.openConnection();
-			//fireListenersOnClose();
 			dispose();
 		} 
 		catch (SQLException e) 
