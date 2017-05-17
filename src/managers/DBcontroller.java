@@ -19,9 +19,9 @@ import models.TeacherTable;
 
 public class DBcontroller 
 {
-	private String url = new String();
-	private String name = new String();
-	private String password = new String();
+	private String url;
+	private String name;
+	private String password;
     private Connection connection;
     	
 	private JournalTable journalTable = new JournalTable(this);
@@ -68,9 +68,7 @@ public class DBcontroller
 
 	public void setSubjectTable(SubjectTable subjectTable) {
 		this.subjectTable = subjectTable;
-	}
-
-	
+	}	
 	
     public String getUrl() 
     {
@@ -234,23 +232,7 @@ public class DBcontroller
 			JOptionPane.showMessageDialog(null, e.getMessage());
 		} 
     }   
-    
-    public int maxIdTable(String table)
-    {
-   	 	try 
-   	 	{
-   	    	Statement statement = connection.createStatement();
-			ResultSet rs = statement.executeQuery("Select max(id) from "+ table);
-			rs.next();
-			return Integer.parseInt(rs.getObject(1).toString());
-		} 
-   	 	catch (SQLException e) 
-   	 	{
-			e.printStackTrace();
-			return -1;
-		}
-    }
-    
+   
     public ResultSet getRow(String table, int id)
     {
 		try 
