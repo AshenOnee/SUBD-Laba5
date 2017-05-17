@@ -33,7 +33,7 @@ public class TeacherTable
 		try 
 		{
 			tableTeacher.clear();
-	   	 	ResultSet rs = dbController.getRows("select * from teacher order by id;");
+	   	 	ResultSet rs = dbController.getRows("select id, name, surname, patronymic from teacher order by id;");
 
 	        while(rs.next())
 	        {  

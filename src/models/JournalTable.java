@@ -27,7 +27,7 @@ public class JournalTable
 	    	tableJournal.clear();
 	   	 	ResultSet rs = dbController.getRows("select journal.id, "
 	   	 			+ "pupil.surname, pupil.name, pupil.patronymic, "
-	   	 			+ "teacher.surname, teacher.name, teacher.surname, "
+	   	 			+ "teacher.surname, teacher.name, teacher.patronymic, "
 	   	 			+ "subject.name, "
 	   	 			+ "journal.date, "
 	   	 			+ "journal.mark "

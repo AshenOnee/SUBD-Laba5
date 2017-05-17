@@ -33,7 +33,7 @@ public class ClassTable
 		try 
 		{
 			tableClass.clear();
-	   	 	ResultSet rs = dbController.getRows("select * from class order by id;");
+	   	 	ResultSet rs = dbController.getRows("select id, name from class order by id;");
 
 	        while(rs.next())
 	        {  

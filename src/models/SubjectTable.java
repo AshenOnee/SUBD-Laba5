@@ -33,7 +33,7 @@ public class SubjectTable
 		try 
 		{
 			tableSubject.clear();
-	   	 	ResultSet rs = dbController.getRows("select * from subject order by id;");
+	   	 	ResultSet rs = dbController.getRows("select id, name from subject order by id;");
 
 	        while(rs.next())
 	        {  
