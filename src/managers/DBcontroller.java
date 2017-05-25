@@ -10,11 +10,11 @@ import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
-import models.ClassTable;
-import models.JournalTable;
-import models.PupilTable;
-import models.SubjectTable;
-import models.TeacherTable;
+import models.Group;
+import models.Journal;
+import models.Pupil;
+import models.Subject;
+import models.Teacher;
 
 
 public class DBcontroller 
@@ -24,49 +24,49 @@ public class DBcontroller
 	private String password;
     private Connection connection;
     	
-	private JournalTable journalTable = new JournalTable(this);
-	private PupilTable pupilTable = new PupilTable(this);
-	private TeacherTable teacherTable = new TeacherTable(this);
-	private ClassTable classTable = new ClassTable(this);
-	private SubjectTable subjectTable = new SubjectTable(this);	
+	private Journal journalTable = new Journal(this);
+	private Pupil pupilTable = new Pupil(this);
+	private Teacher teacherTable = new Teacher(this);
+	private Group classTable = new Group(this);
+	private Subject subjectTable = new Subject(this);	
     
-	public JournalTable getJournalTable() {
+	public Journal getJournalTable() {
 		return journalTable;
 	}
 
-	public void setJournalTable(JournalTable journalTable) {
+	public void setJournalTable(Journal journalTable) {
 		this.journalTable = journalTable;
 	}
 
-	public PupilTable getPupilTable() {
+	public Pupil getPupilTable() {
 		return pupilTable;
 	}
 
-	public void setPupilTable(PupilTable pupilTable) {
+	public void setPupilTable(Pupil pupilTable) {
 		this.pupilTable = pupilTable;
 	}
 
-	public TeacherTable getTeacherTable() {
+	public Teacher getTeacherTable() {
 		return teacherTable;
 	}
 
-	public void setTeacherTable(TeacherTable teacherTable) {
+	public void setTeacherTable(Teacher teacherTable) {
 		this.teacherTable = teacherTable;
 	}
 
-	public ClassTable getClassTable() {
+	public Group getClassTable() {
 		return classTable;
 	}
 
-	public void setClassTable(ClassTable classTable) {
+	public void setClassTable(Group classTable) {
 		this.classTable = classTable;
 	}
 
-	public SubjectTable getSubjectTable() {
+	public Subject getSubjectTable() {
 		return subjectTable;
 	}
 
-	public void setSubjectTable(SubjectTable subjectTable) {
+	public void setSubjectTable(Subject subjectTable) {
 		this.subjectTable = subjectTable;
 	}	
 	
@@ -148,49 +148,14 @@ public class DBcontroller
 			return null;
 		}
     }
-
-    @SuppressWarnings("serial")
-	public void setHeaders(JTable table, String[] headers)
-    {
-    	table.setModel(new DefaultTableModel(headers, 0)
-	    {
-	  		@Override
-			public boolean isCellEditable(int row, int column) 
-	   		{
-	   			return false;
-			}
-	   	});
-    }
-
-    public void fillTable(JTable table, String selectedTable)
-    {
-    	switch(selectedTable)
-		{
-			case "journal":
-				journalTable.getTable(table);
-				break;
-			case "pupil":
-				pupilTable.getTable(table);
-				break;
-			case "class":
-				classTable.getTable(table);
-				break;
-			case "teacher":
-				teacherTable.getTeacher(table);
-				break;
-			case "subject":
-				subjectTable.getTable(table);
-				break;
-		}
-    }
     
     public void updateTables()
     {
-		journalTable.fill();
-		pupilTable.fill();
-		classTable.fill();
-		subjectTable.fill();
-		teacherTable.fill();
+		journalTable.fillTableFromDB();
+		pupilTable.fillTableFromDB();
+		classTable.fillTableFromDB();
+		subjectTable.fillTableFromDB();
+		teacherTable.fillTableFromDB();
     }
     
 	@SuppressWarnings("serial")
