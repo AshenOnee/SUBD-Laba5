@@ -7,15 +7,11 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import managers.DBcontroller;
-import models.ClassRow;
-import models.PupilRow;
-import models.SubjectRow;
-import models.TeacherRow;
+import models.TableType;
 
 import java.awt.Panel;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 
 import java.awt.Font;
 import javax.swing.JButton;
@@ -23,27 +19,22 @@ import java.awt.Component;
 
 import java.awt.FlowLayout;
 import javax.swing.JComboBox;
-import javax.swing.DefaultComboBoxModel;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.awt.event.ItemListener;
 import java.awt.event.ItemEvent;
 
 @SuppressWarnings("serial")
 public class FEdit extends JFrame {
-	private DBcontroller dbController;
-
 	private JPanel contentPane;
 	private JPanel pMain= new JPanel();
 	private JPanel pSelectTable = new JPanel();
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	private JComboBox comboBox = new JComboBox(new DefaultComboBoxModel(new String[] {"journal", "pupil", "teacher", "subject", "class"}));
-	
+	@SuppressWarnings({ "rawtypes" })
+	private JComboBox comboBox = new JComboBox();
+			
 	private int id = 0;
-	private String currentTable;
+	private TableType currentTable;
 	private String mode;
 	
 	private ArrayList<DialogListener> listeners = new ArrayList<>();
@@ -90,7 +81,187 @@ public class FEdit extends JFrame {
 	private JComboBox cbTeacher = new JComboBox();
 	@SuppressWarnings("rawtypes")
 	private JComboBox cbClass = new JComboBox();
+	
 
+	public JPanel getpMain() {
+		return pMain;
+	}
+
+	public void setpMain(JPanel pMain) {
+		this.pMain = pMain;
+	}
+
+	public JTextField getTfSurnamePupil() {
+		return tfSurnamePupil;
+	}
+
+	public void setTfSurnamePupil(JTextField tfSurnamePupil) {
+		this.tfSurnamePupil = tfSurnamePupil;
+	}
+
+	public JTextField getTfNamePupil() {
+		return tfNamePupil;
+	}
+
+	public void setTfNamePupil(JTextField tfNamePupil) {
+		this.tfNamePupil = tfNamePupil;
+	}
+
+	public JTextField getTfPatronymic() {
+		return tfPatronymic;
+	}
+
+	public void setTfPatronymic(JTextField tfPatronymic) {
+		this.tfPatronymic = tfPatronymic;
+	}
+
+	public JTextField getTfDateOfBirth() {
+		return tfDateOfBirth;
+	}
+
+	public void setTfDateOfBirth(JTextField tfDateOfBirth) {
+		this.tfDateOfBirth = tfDateOfBirth;
+	}
+
+	public JTextField getTfPlaceOfResidence() {
+		return tfPlaceOfResidence;
+	}
+
+	public void setTfPlaceOfResidence(JTextField tfPlaceOfResidence) {
+		this.tfPlaceOfResidence = tfPlaceOfResidence;
+	}
+
+	public JTextField getTfPhone() {
+		return tfPhone;
+	}
+
+	public void setTfPhone(JTextField tfPhone) {
+		this.tfPhone = tfPhone;
+	}
+
+	public JTextField getTfBloodType() {
+		return tfBloodType;
+	}
+
+	public void setTfBloodType(JTextField tfBloodType) {
+		this.tfBloodType = tfBloodType;
+	}
+
+	public JTextField getTfSurnameTeacher() {
+		return tfSurnameTeacher;
+	}
+
+	public void setTfSurnameTeacher(JTextField tfSurnameTeacher) {
+		this.tfSurnameTeacher = tfSurnameTeacher;
+	}
+
+	public JTextField getTfNameTeacher() {
+		return tfNameTeacher;
+	}
+
+	public void setTfNameTeacher(JTextField tfNameTeacher) {
+		this.tfNameTeacher = tfNameTeacher;
+	}
+
+	public JTextField getTfPatronymicTeacher() {
+		return tfPatronymicTeacher;
+	}
+
+	public void setTfPatronymicTeacher(JTextField tfPatronymicTeacher) {
+		this.tfPatronymicTeacher = tfPatronymicTeacher;
+	}
+
+	public JTextField getTfNameClass() {
+		return tfNameClass;
+	}
+
+	public void setTfNameClass(JTextField tfNameClass) {
+		this.tfNameClass = tfNameClass;
+	}
+
+	public JTextField getTfNameSubject() {
+		return tfNameSubject;
+	}
+
+	public void setTfNameSubject(JTextField tfNameSubject) {
+		this.tfNameSubject = tfNameSubject;
+	}
+
+	public JTextField getTfDate() {
+		return tfDate;
+	}
+
+	public void setTfDate(JTextField tfDate) {
+		this.tfDate = tfDate;
+	}
+
+	public JTextField getTfMark() {
+		return tfMark;
+	}
+
+	public void setTfMark(JTextField tfMark) {
+		this.tfMark = tfMark;
+	}
+
+	@SuppressWarnings("rawtypes")
+	public JComboBox getCbPupil() {
+		return cbPupil;
+	}
+	
+	@SuppressWarnings("rawtypes")
+	public void setCbPupil(JComboBox cbPupil) {
+		this.cbPupil = cbPupil;
+	}
+
+	@SuppressWarnings("rawtypes")
+	public JComboBox getCbSubject() {
+		return cbSubject;
+	}
+
+	@SuppressWarnings("rawtypes")
+	public void setCbSubject(JComboBox cbSubject) {
+		this.cbSubject = cbSubject;
+	}
+
+	@SuppressWarnings("rawtypes")
+	public JComboBox getCbTeacher() {
+		return cbTeacher;
+	}
+
+	@SuppressWarnings("rawtypes")
+	public void setCbTeacher(JComboBox cbTeacher) {
+		this.cbTeacher = cbTeacher;
+	}
+
+	@SuppressWarnings("rawtypes")
+	public JComboBox getCbClass() {
+		return cbClass;
+	}
+
+	@SuppressWarnings("rawtypes")
+	public void setCbClass(JComboBox cbClass) {
+		this.cbClass = cbClass;
+	}
+
+	public JPanel getpPupil() {
+		return pPupil;
+	}
+
+	public JPanel getpTeacher() {
+		return pTeacher;
+	}
+
+	public JPanel getpClass() {
+		return pClass;
+	}
+
+	public JPanel getpSubject() {
+		return pSubject;
+	}
+
+	public Panel getpJournal() {
+		return pJournal;
+	}
 
 	private void initialization()
 	{	
@@ -314,7 +485,7 @@ public class FEdit extends JFrame {
 		
 		comboBox.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent arg0) {
-				currentTable = comboBox.getSelectedItem().toString();
+				currentTable = (TableType)comboBox.getSelectedItem();
 				changePanel();
 			}
 		});
@@ -328,233 +499,45 @@ public class FEdit extends JFrame {
 
 	}
 	
-	public FEdit(String nameTable, DBcontroller dbController) 
+	@SuppressWarnings("unchecked")
+	public FEdit(TableType table, DBcontroller dbController) 
 	{
 		initialization();
-		currentTable = nameTable;
-		mode = "add";
-		this.dbController = dbController;
-
-		comboBox.setSelectedItem(currentTable);
+		mode = "add";	
+		comboBox.addItem(dbController.getJournalTable());
+		comboBox.addItem(dbController.getPupilTable());
+		comboBox.addItem(dbController.getTeacherTable());
+		comboBox.addItem(dbController.getSubjectTable());
+		comboBox.addItem(dbController.getClassTable());
+		currentTable = table;
 		changePanel();
+		comboBox.setSelectedItem(currentTable);
 	}
 	
 	/**
 	 * @wbp.parser.constructor
 	 */
-	public FEdit(String nameTable, int id, DBcontroller dbController)
+	public FEdit(TableType table, int id, DBcontroller dbController)
 	{
 		initialization();
-		currentTable = nameTable;
+		currentTable = table;
 		mode = "update";
-		this.dbController = dbController;
 		this.id = id;
 		changePanel();
 		fillFields();
 		contentPane.remove(pSelectTable);
 	}
 
-	@SuppressWarnings("unchecked")
-	private void fillFieldsJournal(ResultSet rs)
-	{
-		try
-		{
-			dbController.updateTables();
-			
-			cbPupil.setModel(new DefaultComboBoxModel<>(dbController.getPupilTable().getTablePupil().toArray()));
-			
-			cbSubject.setModel(new DefaultComboBoxModel<>(dbController.getSubjectTable().getTableSubject().toArray()));
-			
-			cbTeacher.setModel(new DefaultComboBoxModel<>(dbController.getTeacherTable().getTableTeacher().toArray()));
-			
-			for(PupilRow row:dbController.getPupilTable().getTablePupil())
-				if(row.getId().equals(rs.getObject(1).toString()))
-					cbPupil.setSelectedItem(row);
-			
-			for(TeacherRow row:dbController.getTeacherTable().getTableTeacher())
-				if(row.getId().equals(rs.getObject(2).toString()))
-					cbTeacher.setSelectedItem(row);
-			
-			for(SubjectRow row:dbController.getSubjectTable().getTableSubject())
-				if(row.getId().equals(rs.getObject(3).toString()))
-					cbSubject.setSelectedItem(row);
-			
-			tfDate.setText(rs.getObject(4).toString());
-			tfMark.setText(rs.getObject(5).toString());
-		}
-		catch(Exception e)
-		{
-			JOptionPane.showMessageDialog(null, e.getMessage());
-		}
-	}
-	
-	@SuppressWarnings("unchecked")
-	private void fillFieldsPupil(ResultSet rs)
-	{
-		try
-		{
-			dbController.updateTables();
-
-			cbClass.setModel(new DefaultComboBoxModel<>(dbController.getClassTable().getTableClass().toArray()));
-			
-			for(ClassRow row:dbController.getClassTable().getTableClass())
-				if(row.getId().equals(rs.getObject(1).toString()))
-					cbClass.setSelectedItem(row);
-
-			tfSurnamePupil.setText(rs.getObject(2).toString());
-			tfNamePupil.setText(rs.getObject(3).toString());
-			tfPatronymic.setText(rs.getObject(4).toString());
-			tfDateOfBirth.setText(rs.getObject(5).toString());
-			tfPlaceOfResidence.setText(rs.getObject(6).toString());
-			tfPhone.setText(rs.getObject(7).toString());
-			tfBloodType.setText(rs.getObject(8).toString());
-		}
-		catch(Exception e)
-		{
-			JOptionPane.showMessageDialog(null, e.getMessage());
-		}
-	}
-	
-	private void fillFieldsTeacher(ResultSet rs)
-	{
-		try
-		{
-			tfSurnameTeacher.setText(rs.getObject(1).toString());
-			tfNameTeacher.setText(rs.getObject(2).toString());
-			tfPatronymicTeacher.setText(rs.getObject(3).toString());
-		}
-		catch(Exception e)
-		{
-			JOptionPane.showMessageDialog(null, e.getMessage());
-		}
-	}
-	
-	private void fillFieldsClass(ResultSet rs)
-	{
-		try
-		{
-			tfNameClass.setText(rs.getObject(1).toString());
-		}
-		catch(Exception e)
-		{
-			JOptionPane.showMessageDialog(null, e.getMessage());
-		}
-	}
-	
-	private void fillFieldsSubject(ResultSet rs)
-	{
-		try
-		{
-			tfNameSubject.setText(rs.getObject(1).toString());
-		}
-		catch(Exception e)
-		{
-			JOptionPane.showMessageDialog(null, e.getMessage());
-		}
-	}
-	
 	private void fillFields()
 	{
-		try 
-		{
-			ResultSet rs = dbController.getRow(currentTable, id);
-			rs.next();
-			switch(currentTable)
-			{
-				case "journal":
-					fillFieldsJournal(rs);
-					break;
-					
-				case "pupil":
-					fillFieldsPupil(rs);
-					break;
-					
-				case "class":
-					fillFieldsClass(rs);
-					break;
-					
-				case "subject":
-					fillFieldsSubject(rs);
-					break;
-					
-				case "teacher":
-					fillFieldsTeacher(rs);
-					break;
-			}
-		} 
-		catch (SQLException e) 
-		{
-			JOptionPane.showMessageDialog(null, e.getMessage());
-		}
-	}
-	
-	@SuppressWarnings("unchecked")
-	private void changePanelToJournal()
-	{
-		dbController.updateTables();
-
-		cbPupil.setModel(new DefaultComboBoxModel<>(dbController.getPupilTable().getTablePupil().toArray()));
-
-		cbSubject.setModel(new DefaultComboBoxModel<>(dbController.getSubjectTable().getTableSubject().toArray()));
-		
-		cbTeacher.setModel(new DefaultComboBoxModel<>(dbController.getTeacherTable().getTableTeacher().toArray()));
-		
-		pMain.removeAll();
-		pMain.add(pJournal, BorderLayout.CENTER);
-	}
-	
-	@SuppressWarnings("unchecked")
-	private void changePanelToPupil()
-	{
-		dbController.updateTables();
-		
-		cbClass.setModel(new DefaultComboBoxModel<>(dbController.getClassTable().getTableClass().toArray()));
-		
-		pMain.removeAll();
-		pMain.add(pPupil, BorderLayout.CENTER);
-	}
-	
-	private void changePanelToTeacher()
-	{
-		pMain.removeAll();
-		pMain.add(pTeacher, BorderLayout.CENTER);
-	}
-	
-	private void changePanelToSubject()
-	{
-		pMain.removeAll();
-		pMain.add(pSubject, BorderLayout.CENTER);
-	}
-	
-	private void changePanelToClass()
-	{
-		pMain.removeAll();
-		pMain.add(pClass, BorderLayout.CENTER);
+		currentTable.fillPanelFields(this, id);
 	}
 	
 	private void changePanel()
 	{		
-		switch(currentTable)
-		{
-			case "journal":
-				changePanelToJournal();
-				break;
-			case "pupil":
-				changePanelToPupil();
-				break;
-			case "class":
-				changePanelToClass();
-				break;
-			case "subject":
-				changePanelToSubject();
-				break;
-			case "teacher":
-				changePanelToTeacher();
-				break;
-		}
+		currentTable.chngePanel(this);
 		pMain.updateUI();
 	}
-	
 
 	public void addListener(DialogListener listener) 
 	{
@@ -574,78 +557,8 @@ public class FEdit extends JFrame {
     
     private void addOrUpdate()
     {
-    	if(mode == "add") add();
-    	else update();
-    }
-    
-    private void add()
-    {
-    	switch(currentTable)
-		{
-			case "journal":
-				dbController.edit("insert into journal (id_pupil, id_teacher, id_subject, date, mark) "
-						+ "values(" + ((PupilRow)cbPupil.getSelectedItem()).getId() + ", " + 
-						((TeacherRow)cbTeacher.getSelectedItem()).getId() + ", " + ((SubjectRow)cbSubject.getSelectedItem()).getId() + ", "
-								+ "'" + tfDate.getText() + "', " + tfMark.getText() + ");");
-				break;
-			case "pupil":
-				dbController.edit("insert into pupil (id_class, surname, name, patronymic, date_of_birth, place_of_residence, phone, bloodtype) "
-						+ "values("+ ((ClassRow)cbClass.getSelectedItem()).getId() + ", '" + tfSurnamePupil.getText() + "', '" + tfNamePupil.getText() + "', "
-								+ "'" + tfPatronymic.getText() + "', '" + tfDateOfBirth.getText() + "', '" + tfPlaceOfResidence.getText() 
-								+ "', " + tfPhone.getText() + ", '" + tfBloodType.getText() + "');");
-				break;
-			case "class":
-				dbController.edit("insert into class (name) "
-						+ "values('" + tfNameClass.getText() + "');");
-				break;
-			case "subject":
-				dbController.edit("insert into subject (name) "
-						+ "values('" + tfNameSubject.getText() + "');");
-				break;
-			case "teacher":
-				dbController.edit("insert into teacher (surname, name, patronymic)  "
-						+ "values('" + tfSurnameTeacher.getText() + "', '" + tfNameTeacher.getText() + "', '" + tfPatronymicTeacher.getText() + "');");
-				break;
-		}
-    }
-    
-    private void update()
-    {
-    	switch(currentTable)
-		{
-			case "journal":
-				dbController.edit("update journal set "
-						+ "id_pupil = " + ((PupilRow)cbPupil.getSelectedItem()).getId() + ", id_teacher =" 
-						+ ((TeacherRow)cbTeacher.getSelectedItem()).getId() + ", id_subject =" 
-						+ ((SubjectRow)cbSubject.getSelectedItem()).getId() + ", date = '" 
-						+ tfDate.getText() + "', mark = " + tfMark.getText() + " where id = " + id + ";");
-				break;
-				
-			case "pupil":
-				dbController.edit("update pupil set "
-						+ "id_class = " + ((ClassRow)cbClass.getSelectedItem()).getId() + ", surname = '" 
-						+ tfSurnamePupil.getText() + "', name = '" + tfNamePupil.getText() + "', "
-						+ "patronymic = '" + tfPatronymic.getText() + "', date_of_birth = '" + tfDateOfBirth.getText() 
-						+ "', place_of_residence = '" + tfPlaceOfResidence.getText() + "', phone = " 
-						+ tfPhone.getText() + ", bloodtype = '" + tfBloodType.getText() + "' where id = " + id + ";");
-				break;
-				
-			case "class":
-				dbController.edit("update class set "
-						+ "name = '" + tfNameClass.getText() + "' where id = " + id + ";");
-				break;
-				
-			case "subject":
-				dbController.edit("update subject set "
-						+ "name = '" + tfNameSubject.getText() + "' where id = " + id + ";");
-				break;
-				
-			case "teacher":
-				dbController.edit("update teacher set "
-						+ "surname = '" + tfSurnameTeacher.getText() + "', name = '" + tfNameTeacher.getText() + "', patronymic = '" 
-						+ tfPatronymicTeacher.getText() + "' where id = " + id + ";");
-				break;
-		}
+    	if(mode == "add") currentTable.addRowToDB(this);
+    	else currentTable.updateRowInDB(this, id);
     }
     
     @Override

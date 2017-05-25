@@ -139,6 +139,7 @@ public class FConnect extends JFrame
 		try 
 		{
 			dbController.openConnection();
+			fireListenersOnConnected();
 			dispose();
 		} 
 		catch (SQLException e) 
@@ -161,6 +162,12 @@ public class FConnect extends JFrame
     {
         for(DialogListener listener : listeners) 
             listener.onClose();
+    }
+    
+    private void fireListenersOnConnected() 
+    {
+        for(DialogListener listener : listeners) 
+            listener.onConnected();
     }
     
     @Override

@@ -9,6 +9,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.table.TableColumnModel;
 
 import managers.DBcontroller;
+import models.TableType;
 
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
@@ -32,6 +33,7 @@ import java.awt.event.ActionListener;
 import java.awt.Component;
 import javax.swing.Box;
 
+
 @SuppressWarnings("serial")
 public class FMain extends JFrame implements DialogListener {
 	private JPanel contentPane;
@@ -41,17 +43,8 @@ public class FMain extends JFrame implements DialogListener {
 	private FConnect fConnect;
 	private FEdit fEdit;
 
-	private String selectedTable = "journal";
-
-	AbstractAction miTablesAction = new AbstractAction() 
-	{		
-		@Override
-		public void actionPerformed(ActionEvent e) 
-		{
-			selectedTable = ((JMenuItem)e.getSource()).getText();
-			queryToDB(false);
-		}
-	};
+	private TableType selectedTable;
+	
 	private JTable table;
  
 	public static void main(String[] args) 
@@ -130,23 +123,49 @@ public class FMain extends JFrame implements DialogListener {
 		menuBar.add(mnTables);
 		
 		JMenuItem mntmJournal = new JMenuItem("journal");
-		mntmJournal.addActionListener(miTablesAction);
+		mntmJournal.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				selectedTable = dbController.getJournalTable();
+				queryToDB(false);
+			}
+		});
+		
 		mnTables.add(mntmJournal);
 		
 		JMenuItem mntmPupil = new JMenuItem("pupil");
-		mntmPupil.addActionListener(miTablesAction);
+		mntmPupil.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				selectedTable = dbController.getPupilTable();
+				queryToDB(false);
+			}
+		});
 		mnTables.add(mntmPupil);
 		
 		JMenuItem mntmSubject = new JMenuItem("subject");
-		mntmSubject.addActionListener(miTablesAction);
+		mntmSubject.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				selectedTable = dbController.getSubjectTable();
+				queryToDB(false);
+			}
+		});
 		mnTables.add(mntmSubject);
 		
 		JMenuItem mntmTeacher = new JMenuItem("teacher");
-		mntmTeacher.addActionListener(miTablesAction);
+		mntmTeacher.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				selectedTable = dbController.getTeacherTable();
+				queryToDB(false);
+			}
+		});
 		mnTables.add(mntmTeacher);
 		
 		JMenuItem mntmClass = new JMenuItem("class");
-		mntmClass.addActionListener(miTablesAction);
+		mntmClass.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				selectedTable = dbController.getClassTable();
+				queryToDB(false);
+			}
+		});
 		mnTables.add(mntmClass);
 		
 		contentPane = new JPanel();
@@ -190,7 +209,7 @@ public class FMain extends JFrame implements DialogListener {
 		JButton btnDelete = new JButton("Delete");
 		btnDelete.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				if(selectedTable == "custom")
+				if(selectedTable == null)
 				{
 					JOptionPane.showMessageDialog(null, "Select a table");
 					return;
@@ -209,7 +228,7 @@ public class FMain extends JFrame implements DialogListener {
 		JButton btnUpdate = new JButton("Update");
 		btnUpdate.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				if(selectedTable == "custom")
+				if(selectedTable == null)
 				{
 					JOptionPane.showMessageDialog(null, "Select a table");
 					return;
@@ -233,6 +252,8 @@ public class FMain extends JFrame implements DialogListener {
 			}
 		});
 		toolBar.add(btnQuere);
+		
+		
 	}
 	
 	@Override
@@ -254,6 +275,8 @@ public class FMain extends JFrame implements DialogListener {
     	this.setEnabled(false);
 	}
 	
+	
+	
 	public void onCreateFEdit() 
 	{
 		fEdit.addListener(this);
@@ -263,19 +286,31 @@ public class FMain extends JFrame implements DialogListener {
 	
 	public void queryToDB(boolean custom)
 	{
-		if(custom)
+		try
 		{
-			String s = (String)JOptionPane.showInputDialog(null, "Write query", "query",
-                    JOptionPane.PLAIN_MESSAGE, null, null, null);
-			if(s==null) return;
-			dbController.queryToDB(table, s);
-			selectedTable = "custom";
+			if(custom)
+			{
+				String s = (String)JOptionPane.showInputDialog(null, "Write query", "query",
+	                    JOptionPane.PLAIN_MESSAGE, null, null, null);
+				if(s==null) return;
+				dbController.queryToDB(table, s);
+				selectedTable = null;
+			}
+			else
+			{
+				selectedTable.fillJTableFromTable(table);
+				TableColumnModel tcm = table.getColumnModel();
+	            tcm.removeColumn(tcm.getColumn(0));
+	            
+			}
 		}
-		else
-		{
-			dbController.fillTable(table, selectedTable);
-			TableColumnModel tcm = table.getColumnModel();
-            tcm.removeColumn(tcm.getColumn(0));
+		catch (Exception e) {
+			JOptionPane.showMessageDialog(null, e.getMessage());
 		}
+	}
+
+	@Override
+	public void onConnected() {
+		selectedTable = dbController.getJournalTable();
 	}
 }
